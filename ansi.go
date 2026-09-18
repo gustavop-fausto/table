@@ -105,7 +105,7 @@ func newANSI(input string) ansiBlob {
 				inCSI = false
 			}
 		} else if r == '[' && prev == 0x1b {
-			current.value = current.value[:utf8.RuneCountInString(current.value)-1]
+			current.value = current.value[:len(current.value)-1]
 			if current.value != "" {
 				output = append(output, current)
 				current = ansiSegment{}
