@@ -1,7 +1,6 @@
 package table
 
 import (
-	"slices"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -63,10 +62,10 @@ func TestNewANSI_Multibyte(t *testing.T) {
 	}{
 		{
 			name:  "multibyte character before ANSI sequence",
-			input: "Olá, \x1b[31mMundo",
+			input: "Olá,\x1b[31m Mundo!",
 			want: ansiBlob{
-				{value: "Olá, ", style: ""},
-				{value: "Mundo", style: "\x1b[31m"},
+				{value: "Olá,", style: ""},
+				{value: " Mundo!", style: "\x1b[31m"},
 			},
 		},
 		{
@@ -83,9 +82,7 @@ func TestNewANSI_Multibyte(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			got := newANSI(test.input)
 
-			if !slices.Equal(test.want, got) {
-				t.Errorf("expected %v, got %v", test.want, got)
-			}
+			assert.Equal(t, test.want, got)
 		})
 	}
 }
